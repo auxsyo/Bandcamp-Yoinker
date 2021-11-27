@@ -1,7 +1,8 @@
 # Bandcamp-Yoinker
 Yoinks bandcamp songs for free lul
 
-Bandcamp Yoinker abuses a loophole in bandcamp to download songs from artists for free.
+Bandcamp Yoinker abuses a how bandcamp streams there songs to download songs from artists for free.
+The quality wont be the best, but it is downloadable. 
 
 # How To Use
 To use Bandcamp Yoinker, you have to take the code(bookmarklet) and copy it into a bookmark.
