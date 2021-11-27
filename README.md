@@ -4,7 +4,7 @@ Yoinks bandcamp songs for free lul
 Bandcamp Yoinker abuses a loophole in bandcamp to download songs from artists for free.
 
 # How To Use
-To use Bandcamp Yoinker, you have to take the code and copy it into a bookmark.
+To use Bandcamp Yoinker, you have to take the code(bookmarklet) and copy it into a bookmark.
 Press (Ctrl+D), press more and then paste the code into url.
 ![wkJuaTvQ](https://user-images.githubusercontent.com/68979871/143673265-e68530e4-dfa4-4091-ae1f-82fcc37010eb.png)
 
