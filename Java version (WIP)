@@ -2,66 +2,147 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+import java.io.IOException;
 
 public class Yoink {
+    //private static final char[] ILLEGAL_CHARACTERS = { '/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':' };
+    public static void main(String[] args) {
 
-	public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-		Scanner sc = new Scanner(System.in);
+        // Where do you want the files stored?
+        String path = "";
 
-		ArrayList<String> results = new ArrayList<String>();
-		boolean goodInput = false;
-		// Get url for bandcamp
-		String urlToRead = null;
-		System.out.println("Please enter the URL to the album or song from BandCamp.");
-		while (!goodInput) {
-			urlToRead = sc.nextLine();
-			if (urlToRead.contains("bandcamp.com") && urlToRead.contains("https://")) {
-				goodInput = true;
-			} else
-				System.out.println("Please enter a valid album or song url from bandcamp.com");
-		}
-		URL url;
-		HttpURLConnection conn;
-		BufferedReader rd;
-		String line;
-		String html = "";
-		try {
-			url = new URL(urlToRead);
-			conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			while ((line = rd.readLine()) != null) {
-				html += line;
-			}
-			rd.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        ArrayList<String> urlResults = new ArrayList<>();
+        ArrayList<String> songResults = new ArrayList<>();
+        boolean goodInput = false;
 
-		int startIndex = 0;
-		int endIndex = 0;
-		while (startIndex > -1 && endIndex > -1) {
-			startIndex = html.indexOf("https://t4.bcbits.com");
-			endIndex = html.indexOf("&quot;},&quot;track_id");
+        String urlToRead = null;
+        System.out.println("Please enter the URL to the album or song from BandCamp.");
+        System.out.println("Example: https://tpazolite.bandcamp.com/album/tpzremake-01");
+        while (!goodInput) {
+            urlToRead = sc.nextLine();
+            if (urlToRead.contains("https://")) {
+                goodInput = true;
+            } else System.out.println("Please enter a valid album or song url from bandcamp.com");
+        }
+        URL url;
+        HttpURLConnection conn;
+        BufferedReader rd;
+        String line;
+        StringBuilder html = new StringBuilder();
+        StringBuilder html2 = new StringBuilder();
+        try {
+            url = new URL(urlToRead);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            while ((line = rd.readLine()) != null) {
+                html.append(line);
+                html2.append(line);
+            }
+            rd.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-			try {
-				if (!(startIndex == -1) && !(endIndex == -1)) {
-					results.add(html.substring(startIndex, endIndex));
-					html = html.substring(endIndex + 20);
-					startIndex = 0;
-					endIndex = 0;
-				}
-			} catch (Exception e) {
-				System.out.println("Something went wrong!");
-				break;
-			}
 
-		}
-		for (int i = 0; i < results.size(); i++) {
-			System.out.println(results.get(i));
-		}
+        //
+        // Find song links
+        //
+        int urlStartIndex = 0;
+        int urlEndIndex = 0;
+        while (urlStartIndex > -1 && urlEndIndex > -1) {
+            urlStartIndex = html.indexOf("https://t4.bcbits.com");
+            urlEndIndex = html.indexOf("&quot;},&quot;track_id");
 
-	}
+            try {
+                if (!(urlStartIndex == -1) && !(urlEndIndex == -1)) {
+                    urlResults.add(html.substring(urlStartIndex, urlEndIndex));
+                    html = new StringBuilder(html.substring(urlEndIndex + 20));
+                    urlStartIndex = 0;
+                    urlEndIndex = 0;
+                }
+            } catch (Exception e) {
+                System.out.println("Something went wrong! url");
+                break;
+            }
+
+        }
+        for (String result : urlResults) {
+            System.out.println(result);
+        }
+
+
+        // Replaces all &apos; &#39; and %27 with actual apostrophe within html2
+        // Just so file names don't contain weird text.
+        Pattern p = Pattern.compile("(&apos;)|(&#39;)|(%27)");
+        Matcher m = p.matcher(html2);
+        html2 = new StringBuilder(m.replaceAll("'"));
+
+        Pattern p2 = Pattern.compile("(&amp;)");
+        Matcher m2 = p2.matcher(html2);
+        html2 = new StringBuilder(m2.replaceAll("&"));
+
+        int charReplace = 0;
+        while (charReplace > -1) {
+            charReplace = html2.indexOf("*");
+            if (!(charReplace == -1)) html2 = new StringBuilder(html2.replace(charReplace, charReplace + 1, ""));
+        }
+        //
+        //Find song names
+        //
+        int songStartIndex;
+        int songEndIndex = 0;
+        while (songEndIndex > -1){
+            songStartIndex = html2.indexOf("\"><span class=\"track-title\">") ;
+            html2 = new StringBuilder(html2.substring(songStartIndex + 28));
+            songStartIndex = 0;
+            songEndIndex = html2.indexOf("</span></a>");
+
+            try {
+                if (!(songEndIndex == -1)) {
+                    if (!(songEndIndex - songStartIndex >= 50)) {
+                        songResults.add(html2.substring(songStartIndex, songEndIndex));
+                    }
+                    songEndIndex = 0;
+
+                } else System.out.println("No song end index");
+            } catch (Exception e) {
+                System.out.println("Something went wrong! song name");
+                break;
+            }
+        }
+
+
+        for (String result : songResults) {
+            System.out.println(result);
+        }
+
+
+        //
+        // Download
+        //
+
+        for (int i = 1; i <= urlResults.size(); i++) {
+            try (BufferedInputStream inputStream = new BufferedInputStream(new URL(urlResults.get(i - 1)).openStream());
+                 FileOutputStream fileOS = new FileOutputStream(path + i + ". " + songResults.get(i-1) + ".mp3")) {
+                byte[] data = new byte[1024];
+                int byteContent;
+                while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+                    fileOS.write(data, 0, byteContent);
+                }
+            } catch (IOException e) {
+                // handles IO exceptions
+            }
+            System.out.println("Finished downloading " + songResults.get(i-1) + ".");
+        }
+
+
+    }
 
 }
