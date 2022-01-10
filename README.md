@@ -16,9 +16,10 @@ There are a few ways to use this, the Javascript and the Java.
 * The app will stall for a bit then will finally say done.
 * You will see all the songs from that album next to your executable.
 ![explorer_rmj5EGEwNA](https://user-images.githubusercontent.com/68979871/148744949-077e6639-61d6-4f11-baa3-e33a8949be3e.png)
+* If you find any problems doing something, like it doesnt download, add me on discord. auxsyo#0001
 
 
-## How To Use - Javascript
+## How To Use - Javascript (discontinued)
 * To use Bandcamp Yoinker, you have to take the code(bookmarklet) and copy it into a bookmark.
 * Press (Ctrl+D), press more and then paste the code(bookmarklet) into url.
 ![wkJuaTvQ](https://user-images.githubusercontent.com/68979871/143673265-e68530e4-dfa4-4091-ae1f-82fcc37010eb.png)
