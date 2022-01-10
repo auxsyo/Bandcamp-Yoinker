@@ -6,6 +6,7 @@ The quality wont be the best, but it is downloadable.
 There are a few ways to use this, the Javascript and the Java.
 
 ## How To Use - exe (release)
+* https://youtu.be/Yo_ssj8Kce4
 * Download the executable and place it into desired folder.
 * Run the executable and you will be greeted with a text box.
 
