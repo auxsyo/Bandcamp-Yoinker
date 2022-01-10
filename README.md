@@ -8,6 +8,7 @@ There are a few ways to use this, the Javascript and the Java.
 ## How To Use - exe (release)
 * Download the executable and place it into desired folder.
 * Run the executable and you will be greeted with a text box.
+
 ![javaw_QLzHYwVABP](https://user-images.githubusercontent.com/68979871/148744578-f84a6656-4b7f-41f5-ba18-186356dde884.png)
 * You put the link to an album or track of a bandcamp artist. 
 * For example, https://tpazolite.bandcamp.com/album/dive-high
