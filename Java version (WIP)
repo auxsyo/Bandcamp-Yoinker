@@ -305,7 +305,7 @@ class Yoinked extends JFrame implements ActionListener {
 			System.out.println("No songs found");
 		}
 		// sc.close();
-		System.exit(0);
+		
 
 	}
 
