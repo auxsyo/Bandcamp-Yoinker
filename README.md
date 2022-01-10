@@ -5,11 +5,17 @@ Bandcamp Yoinker abuses a how bandcamp streams their songs to download songs fro
 The quality wont be the best, but it is downloadable. 
 There are a few ways to use this, the Javascript and the Java.
 
-## How to Use - Java
-* To use Bandcamp Yoinker, you have to take the code and put it into your choice of IDE, I use intellij.
-* Then all you have to do is run it and type in the link of the ALBUM you want to download from bandcamp. For now singles arent working right.
-* From there it will automatically fetch all songs from the album and download them with the correct names to the specified path at the top.
-* This will only work for artists that have their songs set to be able to stream.
+## How To Use - exe (release)
+* Download the executable and place it into desired folder.
+* Run the executable and you will be greeted with a text box.
+![javaw_QLzHYwVABP](https://user-images.githubusercontent.com/68979871/148744578-f84a6656-4b7f-41f5-ba18-186356dde884.png)
+* You put the link to an album or track of a bandcamp artist. 
+* For example, https://tpazolite.bandcamp.com/album/dive-high
+* And you press submit.
+* The app will stall for a bit then will finally say done.
+* You will see all the songs from that album next to your executable.
+![explorer_rmj5EGEwNA](https://user-images.githubusercontent.com/68979871/148744949-077e6639-61d6-4f11-baa3-e33a8949be3e.png)
+
 
 ## How To Use - Javascript
 * To use Bandcamp Yoinker, you have to take the code(bookmarklet) and copy it into a bookmark.
@@ -21,3 +27,5 @@ There are a few ways to use this, the Javascript and the Java.
 ![WcCY1jAY](https://user-images.githubusercontent.com/68979871/143673304-5e5c01bc-8e22-4297-98c3-ebd582ff7bcb.png)
 
 * And finally, you just click the links to download!
+
+
